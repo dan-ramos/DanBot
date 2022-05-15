@@ -1,14 +1,24 @@
 const WebSocket = require('ws');
 const fs = require('fs');
+require('dotenv').config()
 
 const ws = new WebSocket('wss://gateway.discord.gg/?v=6&encoding=json')
 let interval = 1;
 
-token = 'dan token'
+//dantoken = 'nice try lol'
+//dantoken = 'MTQ0MjU0OTEyNzE5NDg2OTc2.GqGigg.Bl5TglFM1ZzfiRE5ynZhgL9qRhgovZYDE_7h_U'
+/*fs.readFile(__dirname + '//dantoken.txt', 'utf8', function (err,token) {
+    if (err) {
+        return console.log(err);
+    }
+    dantoken = token
+    //console.log(dantoken == 'MTQ0MjU0OTEyNzE5NDg2OTc2.GqGigg.Bl5TglFM1ZzfiRE5ynZhgL9qRhgovZYDE_7h_U')
+})*/
+
 payload = {
     op:2,
     d: {
-        token: token,
+        token: process.env.dantoken,
         //intents: 513,
         properties: {
             $os: 'linux',
