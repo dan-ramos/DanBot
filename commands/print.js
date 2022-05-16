@@ -31,6 +31,24 @@ ws.on('message', function incoming(data) {
             const {heartbeat_interval} = d;
             interval = heartbeat(heartbeat_interval);
             break;
+        case 7:
+            ws.close();
+
+            payload = { // copied from above
+                op:2,
+                d: {
+                    token: process.env.dantoken,
+                    //intents: 513,
+                    properties: {
+                        $os: 'linux',
+                        $browser: 'chrome',
+                        $device: 'chrome'
+                    }
+                }
+            }
+
+            ws.send(JSON.stringify(payload));
+            break;
     }
 
     switch (t){
