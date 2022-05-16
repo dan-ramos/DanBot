@@ -2,8 +2,7 @@ module.exports={
     name: 'roll',
     description: 'dice rolling simulation',
     execute(message, args){
-
-        if (args[0] == 'help'){
+        if (args.length == 0 || args[0] == 'help'){
             return message.channel.send('Roll some dice! Use format (number of dice) + d + (type of die). ex: 1d6');
         }
 
