@@ -49,8 +49,12 @@ client.on('message', message =>{
             break;
         case 'roll':
             client.commands.get('roll').execute(message, args);
+            break;
+        case 'print':
+            client.commands.get('print').execute(message, args);
+            break;
     }
 });
 
-console.log(process.env.bottoken);
+//console.log(process.env.bottoken);
 client.login(process.env.bottoken);
