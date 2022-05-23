@@ -4,13 +4,15 @@ import re
 import time
 
 def printThenDelete(fpath):
-    file = open(fpath, encoding='utf8')
-    line = file.readline()
-    time.sleep(1);
+    msg = ''
+    with open(path + '\\' + i, encoding='utf8') as infile:
+        for line in infile:
+            msg = msg + line
+    print(msg)
+    
+    time.sleep(.3);
 
-    file.close()
     os.remove(path + '\\' + i);
-    print(line)
 
 path = os.getcwd()
 path = path + "\queue"

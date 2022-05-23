@@ -16,11 +16,32 @@ client.once('ready', () => {
     console.log('Danbot is online!');
 });
 
-client.on('message', message =>{
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+function containsCum(msg){
+    if(!typeof msg === 'string') return false;
 
+    for(let i = 0; i < msg.length - 2; i++){
+        cumstring = msg.substring(i, i+3);
+        lowercum = cumstring.toLowerCase();
+        if (lowercum === 'cum') return true;
+    }
+    return false;
+}
+
+client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
+
+    if(!message.author.bot && containsCum(message.content)){
+        message.channel.send('you said cum lol');
+        client.commands.get('bust').execute(message, args);
+        cummoji = '💦';
+        message.react(cummoji);
+    }
+    else{
+        //if (!message.author.bot) console.log('did not find cum');
+    }
+
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     switch(command){
         case 'cpk':
@@ -52,6 +73,12 @@ client.on('message', message =>{
             break;
         case 'print':
             client.commands.get('print').execute(message, args);
+            break;
+        case 'printall':
+            client.commands.get('printALL').execute(message, args);
+            break;
+        case 'bust':
+            client.commands.get('bust').execute(message, args);
             break;
     }
 });

@@ -1,14 +1,4 @@
 const fs = require('fs');
-const request = require('request');
-
-const download = (url, path, callback) => {
-  request.head(url, (err, res, body) => {
-    request(url)
-      .pipe(fs.createWriteStream(path))
-      .on('close', callback)
-  })
-}
-
 module.exports={
     name: 'print',
     description: 'saves message to printing queue',
@@ -36,11 +26,5 @@ module.exports={
             }
         });
 
-        message.attachments.forEach(attachment => {
-            console.log('msg has attachments');
-            download(attachment.url, __dirname + '/print/queue/' + Date.now() + '.png', () => {
-                console.log('downloaded img')
-            })
-        })
     }
 }
