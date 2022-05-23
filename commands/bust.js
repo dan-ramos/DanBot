@@ -1,30 +1,44 @@
 const fs = require('fs');
+
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
 module.exports={
-    name: 'print',
-    description: 'saves message to printing queue',
+    name: 'bust',
+    description: 'counts nuts busted by server',
     execute(message, args){
-        const yupEmoji = '👍';
-        message.react(yupEmoji);
+        let channel = message.channel.id;
+        dir = __dirname + '/bust/' + channel;
 
-        let author = message.author.username;
-        let content = message.content.slice(7);
-        let msg = `${author}: ${content}`;
+        count = 0;
+        if(!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+            fs.writeFile(dir + '/bust.txt', '' + 0, (err) => {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log('created path + file ' + dir + '/bust.txt');
+                }
+            })
+        }
+        else{
+            readnum = fs.readFileSync(dir + '/bust.txt', 'utf8');
+            num = parseInt(readnum);
+            if(isNumeric(readnum)){
+                count = num;
+            }
+        }
 
-        console.log(msg)
+        message.channel.send('This server done busted ' + (count+1) + ' times!!!!!');
 
-        let path = __dirname + '/print/queue/' + Date.now() + '.txt';
-        fs.writeFile(path, msg, (err) => {
+        fs.writeFile(dir + '/bust.txt', '' + (count+1), (err) => {
             if(err){
                 console.log(err);
-                const sorryEmoji = '❌';
-                message.react(sorryEmoji);
-            }
-            else{
-                //console.log('wrote to ' + path);
-                const okEmoji = '🆗';
-                message.react(okEmoji);
             }
         });
-
     }
 }
