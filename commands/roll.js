@@ -21,6 +21,9 @@ module.exports={
         else if (dice[0] <= 0 || dice[1] <= 0 ){
             return message.channel.send('you\'re doing somethin fucky, positive numbers only please! (send \"~roll help\" for more info)');
         }
+        else if (dice[0] > 100000000){
+            return message.channel.send('idk man like a billion');
+        }
 
         total = 0;
         listOfRolls = [0];
@@ -31,13 +34,15 @@ module.exports={
             total += roll;
         }
 
-        rollMsg = '      (' + listOfRolls[0];
-        for (i = 1; i < listOfRolls.length; i++){
-            rollMsg += ' + ' + listOfRolls[i];
+        rollMsg = '';
+        if (dice[0] != 1 && dice[0] < 450){
+            rollMsg = '      (' + listOfRolls[0];
+            for (i = 1; i < listOfRolls.length; i++){
+                rollMsg += ' + ' + listOfRolls[i];
+            }
+            rollMsg += ')';
         }
-        rollMsg += ')';
-        
-        if (dice[0] == 1) rollMsg = '';
+
         message.channel.send(total + rollMsg);
     }
 }

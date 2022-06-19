@@ -12,12 +12,15 @@ const download = (url, path, callback) => {
 module.exports={
     name: 'print',
     description: 'saves message to printing queue',
-    execute(message, args){
+    execute(message, args, isPrinting){
         const yupEmoji = '👍';
         message.react(yupEmoji);
 
         let author = message.author.username;
         let content = message.content.slice(7);
+        if(isPrinting == true){
+            content = message.content;
+        }
         let msg = `${author}: ${content}`;
 
         console.log(msg)

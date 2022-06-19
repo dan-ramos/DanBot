@@ -27,9 +27,30 @@ function containsCum(msg){
     return false;
 }
 
+async function sendHelp(msg){
+    let embed = new Discord.MessageEmbed()
+                    .setColor('#c9f054')
+                    .setTitle('Sup with it baby 😎')
+                    .setDescription('You can do anything at danbot, check out these dope commands you can try:\n\n'
+                    +`**~cpk or ~hdp** - witness legends before your very eyes\n`
+                    +`**~roll [2d8]** - roll dice like for dnd\n`
+                    +`**~bruh [write a sentence here]** - danbot repeats your sentence one word at a time\n`
+                    +`**~schedule** - sends a message you can use to plan what day of the week people are free\n`
+                    +`**~cocke ~sussy ~bwomp** - copypastas\n`
+                    +`**~bust** - manual cum command\n`
+                    +`**~print** - print a message/an attached image out of daniels receipt printer lmao\n**~printALL** - prints all messages sent for a couple hours`
+                    );
+                let MessageEmbed = await msg.channel.send(embed);
+}
+
+let isPrinting = false;
 client.on('message', message =>{
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
+
+    if(isPrinting == true){
+        client.commands.get('print').execute(message, args, true);
+    }
 
     if(!message.author.bot && containsCum(message.content)){
         message.channel.send('you said cum lol');
@@ -44,6 +65,9 @@ client.on('message', message =>{
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     switch(command){
+        case 'help':
+            sendHelp(message);
+            break;
         case 'cpk':
             message.channel.send('https://www.youtube.com/watch?v=AvVjMEZXbO8');
             break;
@@ -59,7 +83,7 @@ client.on('message', message =>{
         case 'bruh':
             client.commands.get('bruh').execute(message, args);
             break;
-        case 'heb&d':
+        case 'schedule':
             client.commands.get('heb&d').execute(message, args, Discord, client);
             break;
         case 'cocke':
@@ -68,14 +92,25 @@ client.on('message', message =>{
         case 'sussy':
             client.commands.get('sussy').execute(message, args);
             break;
+        case 'bwomp':
+            client.commands.get('bwomp').execute(message, args);
+            break;
         case 'roll':
             client.commands.get('roll').execute(message, args);
             break;
         case 'print':
-            client.commands.get('print').execute(message, args);
+            if(isPrinting == false){
+                client.commands.get('print').execute(message, args, false);
+            }
             break;
         case 'printall':
             client.commands.get('printALL').execute(message, args);
+            break;
+        case 'start':
+            isPrinting = true;
+            break;
+        case 'stop':
+            isPrinting = false;
             break;
         case 'bust':
             client.commands.get('bust').execute(message, args);
