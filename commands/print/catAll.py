@@ -8,6 +8,7 @@ path = path + "\queue"
 
 pathList = os.listdir(path)
 
+bigmsg = ''
 for i in pathList:
     msg = ''
 
@@ -18,5 +19,12 @@ for i in pathList:
         for line in infile:
             msg = msg + line
     print(msg)
+    bigmsg = bigmsg + '\n' + msg
 
+with open('big.txt', 'w', encoding='utf8') as f:
+    f.write(bigmsg)
+
+    f.close()
+
+os.startfile('big.txt', 'Print')
 input()
